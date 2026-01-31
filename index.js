@@ -1,7 +1,16 @@
 const express = require('express')
 require('dotenv').config()
-const logger = require('./middlewares/logger')
-const notFound = require('./middlewares/notFound')
+const supabase = require('./config/supabase')
+
+const logger = (req, res, next) => {
+  console.log(`${req.method} ${req.url}`)
+  next()
+}
+
+const notFound = (req, res) => {
+  res.status(404).json({ error: 'Route not found' })
+}
+
 
 const userRoutes = require('./routes/user.routes')
 const vehicleRoutes = require('./routes/vehicle.routes')
@@ -19,7 +28,7 @@ app.use('/analytics', analyticsRoutes)
 
 app.use(notFound)
 
-app.listen(process.env.PORT, () => {
-    console.log(`Server running on port ${process.env.PORT}`)
-  })
-  
+const PORT = process.env.PORT || 3000
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`)
+})
