@@ -3,8 +3,12 @@ const router = express.Router()
 const limiter = require('../middlewares/rateLimiter')
 const { addVehicle, assignDriver, getVehicle } = require('../controllers/vehicle.controller')
 
-router.post('/add', limiter, addVehicle)
-router.patch('/assign-driver/:vehicleId', assignDriver)
-router.get('/:vehicleId', getVehicle)
+router.post('/', createVehicle)
+router.get('/', getAllVehicles)
+router.get('/:id', getVehicleById)
+router.put('/:id/assign-driver', assignDriver)
+router.put('/:id', updateVehicle)
+router.delete('/:id', deleteVehicle)
+
 
 module.exports = router
